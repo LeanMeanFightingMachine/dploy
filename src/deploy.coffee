@@ -291,13 +291,13 @@ module.exports = class Deploy
 
 		# Comparing full paths, to allow for flexibility
 		# for values you can set for local path in config
-		name = path.resolve name
+		absoutePath = path.resolve name
 
 		# Check if your are settings the local path
 		if @config.path.local
 			# Check if the name of the file matchs with the local absolute path
 			# And also ignore where the revision file is
-			return no if name.indexOf(@config.path.absoluteLocal) < 0
+			return no if absoutePath.indexOf(@config.path.absoluteLocal) < 0
 
 		for exclude in @config.exclude
 			return no if minimatch(name, exclude)

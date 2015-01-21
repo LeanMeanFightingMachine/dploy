@@ -44,6 +44,7 @@ module.exports = class SFTP
 			privateKey	: config.privateKey
 			publicKey	: config.publicKey
 			passphrase	: config.passphrase
+			readyTimeout	: config.timeout
 
 	###
 	Close the connection

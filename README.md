@@ -123,7 +123,7 @@ publicKey: ~/.ssh/id_dsa.pub
 * Default: `false`  
 * Scheme: `ftp`  
 
-Set this parameter only if you are using FTPS. Set to `true` for both control and data connection encryption, `control` for control connection encryption only, or `implicit` for implicitly encrypted control connection.
+Set this parameter only if you are using SFTP. Set to `true` for both control and data connection encryption, `control` for control connection encryption only, or `implicit` for implicitly encrypted control connection.
 
 ### secureOptions
 * Type: `object`  

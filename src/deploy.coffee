@@ -495,7 +495,8 @@ module.exports = class Deploy
 			connection.mkdir @_normalize(@config.path.remote + folder), (error) =>
 				unless @dirCreated[folder]
 					if error
-						# console.log "[ + ]".green, "Fail creating directory: #{folder}:".red
+						console.log "Error:".bold.red, "Failed to create directory on the server. It may already exist."
+          					process.exit(code = 0);
 					else
 						# console.log "[ + ]".green, "Directory created: #{folder}:".green unless @dirCreated[folder]
 						# Set the folder as created

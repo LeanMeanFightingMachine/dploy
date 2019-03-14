@@ -60,8 +60,8 @@ module.exports = class Deploy
 		# Load the config file
 		fs.readFile "dploy.yaml", (error, data) =>
 			if error
+				process.exit(code=1)
 				return console.log "Error:".bold.red, "The file \"dploy.yaml\" could not be found."
-				process.exit(code=0)
 
 			# Set the config file based on the arguments
 			# If no arguments were found, use the first environment on the file
@@ -73,8 +73,8 @@ module.exports = class Deploy
 
 			@config = yaml[@server]
 			unless @config
+				process.exit(code=1)
 				return console.log "Error:".bold.red, "We couldn't find the settings for " + "#{@server}".bold.red
-				process.exit(code=0)
 
 			@configLoaded()
 

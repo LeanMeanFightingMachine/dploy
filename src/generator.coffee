@@ -2,6 +2,7 @@ colors	= require "colors"
 fs 		= require "fs"
 path	= require "path"
 Signal	= require "signals"
+exec		= require("child_process").exec
 
 module.exports = class Generator
 
@@ -15,7 +16,13 @@ module.exports = class Generator
 
 		console.log "Installing ".yellow + "DPLOY".bold.yellow + "...".yellow
 
+		@_configGitForNoUnicodeFile()
+
 		@_generateConfig()
+
+	_configGitForNoUnicodeFile: ->
+		exec "git config core.quotepath off", { maxBuffer: 5000*1024 }, (error, stdout, stderr) ->
+			return console.log "An error occurred when executing 'git config core.quotepath off'".bold.red, error if error
 
 	_generateConfig: =>
 		fileName = "dploy.yaml"
@@ -31,7 +38,7 @@ module.exports = class Generator
 	_generatePostCommit: =>
 		# Ignore the installation if it's not a .git repository
 		return @_postCommitCompleted.dispatch() unless fs.existsSync ".git"
-			
+
 		fileName = ".git/hooks/post-commit"
 		content	= fs.readFileSync(path.resolve(__dirname, "../generator/post-commit")).toString()
 
@@ -41,7 +48,7 @@ module.exports = class Generator
 			fileData = fs.readFileSync(fileName).toString()
 			if fileData.toLowerCase().indexOf("dploy") >= 0
 				return @_postCommitCompleted.dispatch()
-			
+
 			# Remove the bash import if it's already there
 			content = content.replace(new RegExp("#!\/bin\/bash", "g"), "") if fileData.indexOf("#!/bin/bash") >= 0
 
@@ -54,7 +61,7 @@ module.exports = class Generator
 
 			fs.chmodSync fileName, "0755"
 			@_postCommitCompleted.dispatch()
-	
+
 	_completed: ->
 		console.log "Done!".bold.green + " Your project is ready to ".green + "DEPLOY".green.bold + " :) ".green
 		process.exit(code=0)

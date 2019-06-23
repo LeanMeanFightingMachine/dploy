@@ -335,6 +335,8 @@ module.exports = class Deploy
 			# Match the path of the key object to remove everything that is not a glob
 			match = path.dirname(key).match(/^[0-9a-zA-Z_\-/\\]+/)
 			for file in files
+				continue if not @canUpload file
+
 				# If there's any match for this key, we remove from the remote file name
 				# And we also clean the remote url
 				remoteFile = if match and match.length then file.substring match[0].length else file
